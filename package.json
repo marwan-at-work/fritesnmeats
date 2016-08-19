@@ -4,6 +4,9 @@
   "description": "async-frites project",
   "author": "Marwan Sulaiman",
   "license": "ISC",
+  "engines": {
+    "node": "6.4.0"
+  },
   "dependencies": {
     "aws-sdk": "^2.5.1",
     "babel-cli": "^6.11.4",
