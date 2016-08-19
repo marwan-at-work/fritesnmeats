@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import { getOrCreateUser, updateUser } from './s3';
 import stopScript from './stop-script';
 import botw from './botw';
+import outsideOrderWindow from './outside-order-window';
 
 const smtpConfig = {
   host: 'smtp.gmail.com',
@@ -63,12 +64,17 @@ async function makeOrder(userName, resp) {
   const lastOrderedMoment = lastOrdered && moment.tz(lastOrdered, 'America/New_York');
   const nowInNYC = moment.tz('America/New_York');
   const userOrderedToday = lastOrderedMoment && nowInNYC.diff(lastOrderedMoment, 'days') === 0;
+  const thisHourInNYC = nowInNYC.format('HH');
+
+  if (nowInNYC.format('dddd') !== 'Thursday' && process.env.FORCES !== 'true') {
+    return resp.status(400).send('You can only order on Thursdays');
+  }
+
   if (userOrderedToday) {
     return resp.status(200).send('You already made an order today');
   }
 
-  const thisHourInNYC = nowInNYC.format('HH');
-  if (!['10', '11', '12', '13'].includes(thisHourInNYC)) {
+  if (outsideOrderWindow(thisHourInNYC)) {
     return resp.status(400).send('Order window is between 10AM-2PM');
   }
 

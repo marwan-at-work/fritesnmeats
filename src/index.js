@@ -26,11 +26,6 @@ app.post('/', urlencodedParser, function(req, resp) {
     return resp.status(400).send("UNAUTHORIZED_TOKEN");
   }
 
-  const nowInNYC = moment.tz('America/New_York');
-  if (nowInNYC.format('dddd') !== 'Thursday' && process.env.FORCES !== 'true') {
-    return resp.status(400).send('You can only order on Thursdays');
-  }
-
   try {
     const order = text.split(' ')[0].toLowerCase();
     validateOrder(order);
