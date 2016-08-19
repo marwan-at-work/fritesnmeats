@@ -2,6 +2,8 @@ import fs from 'fs';
 import mailer from 'nodemailer';
 import moment from 'moment-timezone';
 import { getOrCreateUser, updateUser } from './s3';
+import stopScript from './stop-script';
+import botw from './botw';
 
 const smtpConfig = {
   host: 'smtp.gmail.com',
@@ -23,15 +25,17 @@ const transporter = mailer.createTransport(smtpConfig);
 
 export default function(userName, order, orderInfo, resp) {
   switch (order) {
-    case 'addOrder':
-      return addOrder(userName, orderInfo, resp).catch(err => { throw err });
+    case 'addorder':
+      return addOrder(userName, orderInfo, resp).catch(err => { stopScript(err) });
     case 'order':
     case ':hamburger:':
-      return makeOrder(userName, resp).catch(err => { throw err });
+      return makeOrder(userName, resp).catch(err => { stopScript(err) });
     case 'alias':
-      return makeAlias(userName, orderInfo, resp).catch(err => { throw err });
-    case 'whatsMyOrder':
-      return showOrder(userName, resp).catch(err => { throw err });
+      return makeAlias(userName, orderInfo, resp).catch(err => { stopScript(err) });
+    case 'what':
+      return showOrder(userName, resp).catch(err => { stopScript(err) });
+    case 'botw':
+      return getBOTW(resp).catch(err => { stopScript(err) });
     default:
       throw new Error(`unknown order: ${order}`);
   }
@@ -100,4 +104,8 @@ async function showOrder(userName, resp) {
   }
 
   resp.status(200).send(`Your order is: ${user.orderInfo}` || 'You might need to addOrder again');
+}
+
+async function getBOTW(resp) {
+  resp.status(200).send(botw());
 }

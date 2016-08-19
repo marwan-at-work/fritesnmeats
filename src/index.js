@@ -10,10 +10,12 @@ import moment from 'moment-timezone';
 
 import validateOrder from './utils/validate-order';
 import processOrder from './utils/process-order';
+import botw from './utils/botw';
 const TOKEN = '$2a$10$PaERCPVrl6/iKl1SceAOMuWgOvnJYXIXl.0iCy1W95E7jNQylxXEK';
 
 const app = express();
 const port = process.env.PORT || '4321';
+botw();
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -30,7 +32,7 @@ app.post('/', urlencodedParser, function(req, resp) {
   }
 
   try {
-    const order = text.split(' ')[0];
+    const order = text.split(' ')[0].toLowerCase();
     validateOrder(order);
 
     const orderInfo = text.toLowerCase().split(' ').slice(1).join(' ');
