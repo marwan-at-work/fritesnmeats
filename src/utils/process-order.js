@@ -121,5 +121,5 @@ async function getBOTW(resp) {
 
 async function sendMenu(resp) {
   resp.set({'Content-Type': 'application/json'});
-  resp.status(200).send({ text: 'here\'s the menu: ', attachments: [{ image_url: 'https://fritesnmeats.herokuapp.com/menu.jpg' }] });
+  resp.status(200).send({ text: 'here\'s the menu: ', attachments: [{ fallback: "frites menu", image_url: 'https://fritesnmeats.herokuapp.com/menu.jpg', "color": "warning" }] });
 }
