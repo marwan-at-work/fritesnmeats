@@ -1,4 +1,4 @@
-const VALID_ORDERS = ['addorder', 'order', 'alias', 'what', ':hamburger:', 'botw'];
+const VALID_ORDERS = ['addorder', 'order', 'alias', 'what', ':hamburger:', 'botw', 'menu'];
 
 module.exports = function(order) {
   if (VALID_ORDERS.includes(order)) {

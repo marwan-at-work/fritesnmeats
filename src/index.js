@@ -15,9 +15,13 @@ const TOKEN = '$2a$10$PaERCPVrl6/iKl1SceAOMuWgOvnJYXIXl.0iCy1W95E7jNQylxXEK';
 
 const app = express();
 const port = process.env.PORT || '4321';
+
+var path = require('path');
+app.use(express.static(path.join(__dirname, 'build/utils')));
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 botw();
 
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.post('/', urlencodedParser, function(req, resp) {
   const { token, text, user_name } = req.body;

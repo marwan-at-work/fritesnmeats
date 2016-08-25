@@ -37,6 +37,8 @@ export default function(userName, order, orderInfo, resp) {
       return showOrder(userName, resp).catch(err => { stopScript(err) });
     case 'botw':
       return getBOTW(resp).catch(err => { stopScript(err) });
+    case 'menu':
+      return sendMenu(resp).catch(err => { stopScript(err) });
     default:
       throw new Error(`unknown order: ${order}`);
   }
@@ -115,4 +117,9 @@ async function showOrder(userName, resp) {
 async function getBOTW(resp) {
   resp.set({'Content-Type': 'application/json'});
   resp.status(200).send({ response_type: 'in_channel', text: botw() });
+}
+
+async function sendMenu(resp) {
+  resp.set({'Content-Type': 'application/json'});
+  resp.status(200).send({ text: 'here\'s the menu: ', attachments: [{ image_url: 'https://fritesnmeats.herokuapp.com/menu.jpg' }] });
 }
