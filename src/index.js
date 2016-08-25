@@ -17,7 +17,7 @@ const app = express();
 const port = process.env.PORT || '4321';
 
 var path = require('path');
-app.use(express.static(path.join(__dirname, 'build/utils')));
+app.use(express.static(path.join(__dirname, '../src/utils')));
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 botw();
