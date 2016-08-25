@@ -113,5 +113,6 @@ async function showOrder(userName, resp) {
 }
 
 async function getBOTW(resp) {
-  resp.status(200).send(botw());
+  resp.set({'Content-Type': 'application/json'});
+  resp.status(200).send({ response_type: 'in_channel', text: botw() });
 }
